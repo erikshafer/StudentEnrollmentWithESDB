@@ -1,8 +1,6 @@
 namespace StudentEnrollmentConsoleApp.Events;
 
-public abstract class Event
+public abstract record Event
 {
-    public abstract string StreamId { get; }
-    
-    public DateTime CreatedAtUtc { get; set; }
+    public string Id { get; init; } = default!;
 }
