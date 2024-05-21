@@ -17,4 +17,20 @@ public sealed class StudentDatabase
         @event.CreatedAtUtc = DateTime.UtcNow;
         _studentEvents[@event.StreamId].Add(@event.CreatedAtUtc, @event);
     }
+
+    public Student? GetStudent(Guid id)
+    {
+        var studentId = $"student-{id}";
+        
+        if (_studentEvents.ContainsKey(studentId) is false)
+            return null;
+
+        var student = new Student();
+        var studentEvents = _studentEvents[studentId];
+        
+        foreach (var @event in studentEvents) 
+            student.Apply(@event.Value);
+
+        return student;
+    }
 }
