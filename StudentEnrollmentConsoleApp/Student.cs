@@ -4,11 +4,12 @@ namespace StudentEnrollmentConsoleApp;
 
 public class Student
 {
-    public string Id { get; set; }
-    public string FullName { get; set; }
-    public string Email { get; set; }
+    public string Id { get; set; } = default!;
+    public string FullName { get; set; } = default!;
+    public string Email { get; set; } = default!;
     public DateTime DateOfBirth { get; set; }
-    public List<string> EnrolledCourses { get; set; } = new();
+    public DateTime CreatedAtUtc { get; set; }
+    public List<string> EnrolledCourses { get; set; } = [];
 
     public void Apply(Event @event)
     {
@@ -17,28 +18,28 @@ public class Student
             case StudentCreated created:
                 Apply(created);
                 break;
-            case StudentUpdated updated:
-                Apply(updated);
+            case StudentEmailChanged emailChanged:
+                Apply(emailChanged);
                 break;
             case StudentEnrolled enrolled:
                 Apply(enrolled);
                 break;
-            case StudentUnEnrolled unEnrolled:
-                Apply(unEnrolled);
+            case StudentWithdrawn withdrawn:
+                Apply(withdrawn);
                 break;
         }
     }
     
     private void Apply(StudentCreated @event)
     {
-        Id = @event.StudentId;
+        Id = @event.Id;
         FullName = @event.FullName;
         Email = @event.Email;
+        CreatedAtUtc = @event.CreatedAtUtc;
     }
     
-    private void Apply(StudentUpdated @event)
+    private void Apply(StudentEmailChanged @event)
     {
-        FullName = @event.FullName;
         Email = @event.Email;
     }
 
@@ -48,7 +49,7 @@ public class Student
             EnrolledCourses.Add(@event.CourseName);
     }
     
-    private void Apply(StudentUnEnrolled @event)
+    private void Apply(StudentWithdrawn @event)
     {
         if (EnrolledCourses.Contains(@event.CourseName))
             EnrolledCourses.Add(@event.CourseName);
