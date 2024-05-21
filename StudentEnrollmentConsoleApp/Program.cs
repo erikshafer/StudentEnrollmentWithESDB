@@ -94,25 +94,25 @@ foreach (var @event in events)
     var dataUtf8 = @event.Event.Data.ToArray();
     switch (eventType)
     {
-        case "studentCreated":
+        case "StudentCreated":
         {
             var deserialized = JsonSerializer.Deserialize<StudentCreated>(dataUtf8);
             studentFromEsdb.Apply(deserialized!);
             break;
         }
-        case "studentEnrolled":
+        case "StudentEnrolled":
         {
             var deserialized = JsonSerializer.Deserialize<StudentEnrolled>(dataUtf8);
             studentFromEsdb.Apply(deserialized!);
             break;
         }
-        case "studentUpdated":
+        case "StudentUpdated":
         {
             var deserialized = JsonSerializer.Deserialize<StudentUpdated>(dataUtf8);
             studentFromEsdb.Apply(deserialized!);
             break;
         }
-        case "studentUnEnrolled":
+        case "StudentUnEnrolled":
         {
             var deserialized = JsonSerializer.Deserialize<StudentUnEnrolled>(dataUtf8);
             studentFromEsdb.Apply(deserialized!);
