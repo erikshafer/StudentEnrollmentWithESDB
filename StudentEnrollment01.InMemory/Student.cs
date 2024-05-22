@@ -1,6 +1,6 @@
-using StudentEnrollment00.InMemory.Events;
+using StudentEnrollment01.InMemory.Events;
 
-namespace StudentEnrollment00.InMemory;
+namespace StudentEnrollment01.InMemory;
 
 public class Student
 {
