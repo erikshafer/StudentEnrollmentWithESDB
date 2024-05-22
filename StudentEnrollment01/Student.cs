@@ -1,6 +1,6 @@
-using StudentEnrollmentConsoleApp.Events;
+using StudentEnrollment01.Events;
 
-namespace StudentEnrollmentConsoleApp;
+namespace StudentEnrollment01;
 
 public class Student
 {

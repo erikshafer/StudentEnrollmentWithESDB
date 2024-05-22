@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 
-namespace StudentEnrollmentConsoleApp.Events;
+namespace StudentEnrollment01.Events;
 
 public class EventTypeMapper
 {

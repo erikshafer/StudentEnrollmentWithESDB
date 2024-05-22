@@ -1,4 +1,4 @@
-namespace StudentEnrollmentConsoleApp.Events;
+namespace StudentEnrollment01.Events;
 
 public record StudentWithdrawn : Event
 {
