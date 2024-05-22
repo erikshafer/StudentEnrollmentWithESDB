@@ -4,12 +4,16 @@ namespace StudentEnrollment04.Esdb;
 
 public class Student
 {
-    public string Id { get; set; } = default!;
-    public string FullName { get; set; } = default!;
-    public string Email { get; set; } = default!;
-    public DateTime DateOfBirth { get; set; }
-    public DateTime CreatedAtUtc { get; set; }
-    public List<string> EnrolledCourses { get; set; } = [];
+    internal Student()
+    {
+    }
+    
+    public string Id { get; private set; } = default!;
+    public string FullName { get; private set; } = default!;
+    public string Email { get; private set; } = default!;
+    public DateTime DateOfBirth { get; private set; }
+    public DateTime CreatedAtUtc { get; private set; }
+    public IList<CourseCode> EnrolledCourses { get; private set; } = [];
 
     public void Apply(Event @event)
     {
@@ -45,13 +49,36 @@ public class Student
 
     private void Apply(StudentEnrolled @event)
     {
-        if (EnrolledCourses.Contains(@event.CourseName) is false)
-            EnrolledCourses.Add(@event.CourseName);
+        var enrollingCourseCode = new CourseCode(@event.CourseName);
+
+        var existingCourseCode = FindCourseCodeMatchingWith(enrollingCourseCode);
+
+        if (existingCourseCode is null)
+        {
+            EnrolledCourses.Add(enrollingCourseCode);
+            return;
+        }
+        
+        var indexOfExistingCode = EnrolledCourses.IndexOf(existingCourseCode);
+
+        if (indexOfExistingCode == -1)
+            throw new ArgumentOutOfRangeException(nameof(existingCourseCode), "Course Code was not found");
+
+        EnrolledCourses[indexOfExistingCode] = enrollingCourseCode;
     }
     
     private void Apply(StudentWithdrawn @event)
     {
-        if (EnrolledCourses.Contains(@event.CourseName))
-            EnrolledCourses.Add(@event.CourseName);
+        var withdrawingCourseCode = new CourseCode(@event.CourseName);
+
+        var existingCourseCode = FindCourseCodeMatchingWith(withdrawingCourseCode);
+        
+        if (existingCourseCode is null)
+        {
+            throw new InvalidOperationException($"Course Code of `{withdrawingCourseCode.Value}` was not found in student's enrolled courses");
+        }
     }
+
+    private CourseCode? FindCourseCodeMatchingWith(CourseCode courseCode)
+        => EnrolledCourses.SingleOrDefault(ec => ec.HasSameValue(courseCode));
 }

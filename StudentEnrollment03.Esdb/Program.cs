@@ -19,8 +19,7 @@ EventTypeMapper.Instance.ToName(typeof(StudentEmailChanged));
 var id = Guid.Parse("a662d446-4920-415e-8c2a-0dd4a6c58908");
 var streamId = $"student-{id}";
 
-// Create the student events,
-// serialize them to JSON,
+// Create the student events, serialize them to JSON,
 // and then place them inside the EventData object from the ESDB client.
 var created = new EventData(
     Uuid.NewUuid(),

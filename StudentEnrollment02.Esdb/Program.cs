@@ -6,8 +6,7 @@ using StudentEnrollment02.Esdb.Events;
 // Validate GUID shape, then stringify. Same exact value as the in-memory version (01).
 var streamId = Guid.Parse("a662d446-4920-415e-8c2a-0dd4a6c58908").ToString();
 
-// Create the student events,
-// serialize them to JSON,
+// Create the student events, serialize them to JSON,
 // and then place them inside the EventData object from the ESDB client.
 var created = new EventData(
     Uuid.NewUuid(),

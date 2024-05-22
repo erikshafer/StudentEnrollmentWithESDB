@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
 using EventStore.Client;
+using StudentEnrollment04.Esdb;
 using StudentEnrollment04.Esdb.Events;
 
 // Register events to a singleton for ease-of-reference
@@ -9,22 +10,25 @@ EventTypeMapper.Instance.ToName(typeof(StudentEnrolled));
 EventTypeMapper.Instance.ToName(typeof(StudentWithdrawn));
 EventTypeMapper.Instance.ToName(typeof(StudentEmailChanged));
 
-// Similar to before, we have the same exact GUID/UUID, but
-// now we're prepending `student-` in front.
-// Why? We don't have your typical relational tables in ESDB,
-// so we're effectively putting the entity (table) name in front.
-// You can do all sorts of things by having a well crafted
-// naming structure for streams, including versions, dates, or
-// whatever else may provide clarity to those in your domain.
+// Let's imagine that these courses are done in a university-like schedule.
+// It's a constraint in our domain, so to speak.
+// So now we're not only prepending `student` to the front, to help convey
+// the entity (or something similar) of this stream, but we're going to take
+// TIME into account. Otherwise, we may have a stream that lasts, theoretically,
+// forever. This may not be a big deal in some systems, but if a stream could
+// potentially have millions upon millions of events, perhaps we should break
+// it up to not just help the technical side of things (performance), but
+// to use "the language of the domain", which in this case is an academic schedule.
+// Get it? Got it? Good.
 var id = Guid.Parse("a662d446-4920-415e-8c2a-0dd4a6c58908");
-var streamId = $"student-{id}";
+var timePeriod = AcademicCalendar.Create(AcademicYear.Y2024, AcademicSemester.Fall);
+var streamId = $"student-{timePeriod}-{id}"; // "student-2024FALL-a662d446-4920-415e-8c2a-0dd4a6c58908"
 
-// Create the student events,
-// serialize them to JSON,
+// Create the student events, serialize them to JSON,
 // and then place them inside the EventData object from the ESDB client.
 var created = new EventData(
     Uuid.NewUuid(),
-    "StudentCreated",
+    typeof(StudentCreated).FullName!,
     JsonSerializer.SerializeToUtf8Bytes(new StudentCreated
     {
         Id = streamId,
@@ -37,18 +41,18 @@ var created = new EventData(
 
 var enrolled = new EventData(
     Uuid.NewUuid(),
-    "StudentEnrolled",
+    typeof(StudentEnrolled).FullName!,
     JsonSerializer.SerializeToUtf8Bytes(new StudentEnrolled
     {
         Id = streamId,
-        CourseName = "From Zero to Hero: REST APis in .NET",
+        CourseName = new CourseCode("DOTNET-101"),
         EnrolledAtUtc = DateTime.UtcNow
     })
 );
 
 var emailChanged = new EventData(
     Uuid.NewUuid(),
-    "StudentEmailChanged",
+    typeof(StudentEmailChanged).FullName!,
     JsonSerializer.SerializeToUtf8Bytes(new StudentEmailChanged
     {
         Id = streamId,
