@@ -1,6 +1,6 @@
-namespace StudentEnrollment00.Events;
+namespace StudentEnrollment00.InMemory.Events;
 
-public class StudentUnEnrolled : Event
+public class StudentEnrolled : Event
 {
     public required Guid StudentId { get; init; }
     public required string CourseName { get; init; }

@@ -1,5 +1,5 @@
-﻿using StudentEnrollment00;
-using StudentEnrollment00.Events;
+﻿using StudentEnrollment00.InMemory;
+using StudentEnrollment00.InMemory.Events;
 
 var id = Guid.Parse("a662d446-4920-415e-8c2a-0dd4a6c58908");
 var now = DateTime.Now;

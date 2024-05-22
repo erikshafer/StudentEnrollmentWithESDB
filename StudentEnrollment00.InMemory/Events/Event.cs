@@ -1,4 +1,4 @@
-namespace StudentEnrollment00.Events;
+namespace StudentEnrollment00.InMemory.Events;
 
 public abstract class Event
 {
