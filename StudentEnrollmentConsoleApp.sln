@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentEnrollment01", "StudentEnrollment01\StudentEnrollment01.csproj", "{446FF6B7-B58B-4CFB-8E98-C5B3AED9BA4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentEnrollment02.Esdb", "StudentEnrollment02.Esdb\StudentEnrollment02.Esdb.csproj", "{446FF6B7-B58B-4CFB-8E98-C5B3AED9BA4D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{43721FA4-09D5-4B98-9684-8752B40047AD}"
 	ProjectSection(SolutionItems) = preProject
@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentEnrollment00", "StudentEnrollment00\StudentEnrollment00.csproj", "{B8D543AF-F986-4E50-AD1D-492B38A58ECF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentEnrollment01.InMemory", "StudentEnrollment01.InMemory\StudentEnrollment01.InMemory.csproj", "{B8D543AF-F986-4E50-AD1D-492B38A58ECF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

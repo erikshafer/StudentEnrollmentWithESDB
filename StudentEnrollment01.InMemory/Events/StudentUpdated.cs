@@ -1,4 +1,4 @@
-namespace StudentEnrollment00.Events;
+namespace StudentEnrollment01.InMemory.Events;
 
 public class StudentUpdated : Event
 {

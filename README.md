@@ -2,29 +2,43 @@
 
 An application showing the absolute basics of event sourcing with [EventStoreDB (ESDB)](https://www.eventstore.com/).
 
+
 ## 💡 Inspiration
 
 Inspired by Nick Chapsas' video about [getting started with Event Sourcing in .NET](https://www.youtube.com/watch?v=n_o-xuuVtmw). This take however uses EventStoreDB as its, well, store of events!
 
-### 🤔 Mini-Log / Thoughts / Brian Dump
 
-- **2024-May-21**:
+### 📄 Mini-Log / 🤔 Thoughts / 🧠 Brain Dump
+
+This is not an Architectural Decision Records (ADRs) log. [This is just a tribute 🎶🎸](https://www.youtube.com/watch?v=Vdq3BtWDRq8).
+
+<details>
+  <summary><strong>2024-May-21</strong></summary>
+  - For clarity, renamed the .NET console application projects.
+</details>
+<details>
+  <summary><strong>2024-May-21</strong></summary>
   - Updated some code, fixed some bugs and typos.
   - Decided this repository will have multiple versions.
     - One that works nearly the same as Nick's original in-memory incarnation.
     - Another using ESDB and some of the most frequently used commands with the ESDB .NET client.
     - Could have a potential third version if there is some demand from the community.
     - Would appreciate feedback. That and questions could extend this even further, perhaps.
-- **2024-May-20**:
+</details>
+<details>
+  <summary><strong>2024-May-20</strong></summary>
   - Watched Nick's initial video. Awesome. Wait, what if we did the same thing, but with ESDB?
   - Made this code repository and .NET solution.
   - Only the bare bones as of this commit. Will update to include some event sourcing best practices without "getting into the weeds" too much.
+</details>
+
 
 ## 📺 Companion Video
 
 A video will be posted on my [YouTube channel](https://www.youtube.com/@event-sourcing) soon. 
 
 Ideally on my birthday, May 22nd!
+
 
 ## 🐋 Requirements
 
@@ -89,6 +103,7 @@ dotnet run --project .\StudentEnrollment01\StudentEnrollment01.csproj
 
 Instructions will go here, but will basically be the same as above!
 
+
 ## 🔗 Resources
 
 Erik Shafer (me):
@@ -100,6 +115,7 @@ Nick Chapsas:
 
 - [youtube.com/@nickchapsas](https://www.youtube.com/@nickchapsas) - YouTube channel
 - [Dometrain](https://dometrain.com/) - Courses crafted by real engineers for the real world.
+
 
 ## License
 

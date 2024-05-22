@@ -1,6 +1,6 @@
-using StudentEnrollment00.Events;
+using StudentEnrollment01.InMemory.Events;
 
-namespace StudentEnrollment00;
+namespace StudentEnrollment01.InMemory;
 
 public sealed class InMemoryDatabase
 {

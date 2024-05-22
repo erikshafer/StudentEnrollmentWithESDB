@@ -1,4 +1,4 @@
-namespace StudentEnrollment01.Events;
+namespace StudentEnrollment02.Esdb.Events;
 
 public record StudentEmailChanged : Event
 {

@@ -1,6 +1,6 @@
-using StudentEnrollment01.Events;
+using StudentEnrollment02.Esdb.Events;
 
-namespace StudentEnrollment01;
+namespace StudentEnrollment02.Esdb;
 
 public class Student
 {
