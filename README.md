@@ -33,29 +33,61 @@ Ideally on my birthday, May 22nd!
 
 ## 🏃 Running
 
-Be sure to launch EventStoreDB through Docker. Through a terminal / command prompt:
+### 0️⃣ Project: StudentEnrollment00
+
+Like the other programs that are .NET console application, the database is a glorified key-value store that's in-memory.
+
+To run it, enter the project directory through your shell's associated Change Directory (`cd`) command from the solution root, such as:
 
 ```bash
-docker-compose up
+cd .\StudentEnrollment01
 ```
 
-You can build the entire solution, including all versions of the projects, by running the following at the root of `/StudentEnrollmentConsoleApp/` with:
+and then build the project
 
 ```bash
 dotnet build
 ```
 
-Run the console application of your choice, change direction to that particular project directory and then execute:
+and run it
 
 ```bash
 dotnet run
 ```
 
-Alternatively, you can stay in the root directory `/StudentEnrollmentConsoleApp/` and include the path to the intended project you want to have run. This same operation can be done with the previous `dotnet build` command, too.
+Alternatively, you can do all this from the solution's root by targeting the project with `--project` and `run` it immediately, such as:
 
 ```bash
-dotnet run .\StudentEnrollment01\StudentEnrollment01.csproj
+dotnet run --project .\StudentEnrollment00\StudentEnrollment00.csproj
 ```
+
+### 1️⃣ Project: StudentEnrollment01
+
+While still a .NET console app, we're now going to use the Event Store database. So be sure to launch EventStoreDB through Docker. With a terminal / command prompt execute:
+
+```bash
+docker-compose up
+```
+
+Like before, you can change directory into the project or run it from the root.
+
+Run the console application of your choice, change direction to that particular project directory and then execute:
+
+```bash
+cd .\StudentEnrollment01
+dotnet build
+dotnet run
+```
+
+Or alternatively:
+
+```bash
+dotnet run --project .\StudentEnrollment01\StudentEnrollment01.csproj
+```
+
+### 2️⃣ TBD
+
+Instructions will go here, but will basically be the same as above!
 
 ## 🔗 Resources
 
