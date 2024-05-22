@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentEnrollment01.InMemory", "StudentEnrollment01.InMemory\StudentEnrollment01.InMemory.csproj", "{B8D543AF-F986-4E50-AD1D-492B38A58ECF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentEnrollment03.Esdb", "StudentEnrollment03.Esdb\StudentEnrollment03.Esdb.csproj", "{EB41DB46-23BF-4D69-A637-CC342929B974}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,5 +28,9 @@ Global
 		{B8D543AF-F986-4E50-AD1D-492B38A58ECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8D543AF-F986-4E50-AD1D-492B38A58ECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8D543AF-F986-4E50-AD1D-492B38A58ECF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB41DB46-23BF-4D69-A637-CC342929B974}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB41DB46-23BF-4D69-A637-CC342929B974}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB41DB46-23BF-4D69-A637-CC342929B974}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB41DB46-23BF-4D69-A637-CC342929B974}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
