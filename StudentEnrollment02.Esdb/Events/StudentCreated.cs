@@ -1,4 +1,4 @@
-namespace StudentEnrollment01.Esdb.Events;
+namespace StudentEnrollment02.Esdb.Events;
 
 public record StudentCreated : Event
 {

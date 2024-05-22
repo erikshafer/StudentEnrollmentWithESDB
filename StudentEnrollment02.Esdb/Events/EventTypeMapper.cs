@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 
-namespace StudentEnrollment01.Esdb.Events;
+namespace StudentEnrollment02.Esdb.Events;
 
 public class EventTypeMapper
 {
