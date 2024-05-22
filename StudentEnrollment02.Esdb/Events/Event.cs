@@ -1,7 +1,7 @@
 namespace StudentEnrollment02.Esdb.Events;
 
-public abstract record Event
+public abstract class Event
 {
-    public string Id { get; init; } = default!;
+    public required string StudentId { get; set; }
     public DateTime CreatedAtUtc { get; set; }
 }

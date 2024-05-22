@@ -18,7 +18,7 @@ public class Student
             case StudentCreated created:
                 Apply(created);
                 break;
-            case StudentEmailChanged emailChanged:
+            case StudentUpdated emailChanged:
                 Apply(emailChanged);
                 break;
             case StudentEnrolled enrolled:
@@ -32,13 +32,13 @@ public class Student
     
     private void Apply(StudentCreated @event)
     {
-        Id = @event.Id;
+        Id = @event.StudentId;
         FullName = @event.FullName;
         Email = @event.Email;
         CreatedAtUtc = @event.CreatedAtUtc;
     }
     
-    private void Apply(StudentEmailChanged @event)
+    private void Apply(StudentUpdated @event)
     {
         Email = @event.Email;
     }

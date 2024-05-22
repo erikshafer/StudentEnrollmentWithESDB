@@ -7,7 +7,7 @@ using StudentEnrollment02.Esdb.Events;
 EventTypeMapper.Instance.ToName(typeof(StudentCreated));
 EventTypeMapper.Instance.ToName(typeof(StudentEnrolled));
 EventTypeMapper.Instance.ToName(typeof(StudentWithdrawn));
-EventTypeMapper.Instance.ToName(typeof(StudentEmailChanged));
+EventTypeMapper.Instance.ToName(typeof(StudentUpdated));
 
 var id = Guid.Parse("a662d446-4920-415e-8c2a-0dd4a6c58908");
 var streamId = $"student-{id}";
@@ -17,7 +17,7 @@ var created = new EventData(
     "StudentCreated",
     JsonSerializer.SerializeToUtf8Bytes(new StudentCreated
     {
-        Id = streamId,
+        StudentId = streamId,
         FullName = "Erik Shafer",
         Email = "erik.shafer@eventstore.com",
         DateOfBirth = new DateTime(1987, 1, 1),
@@ -30,20 +30,21 @@ var enrolled = new EventData(
     "StudentEnrolled",
     JsonSerializer.SerializeToUtf8Bytes(new StudentEnrolled
     {
-        Id = streamId,
+        StudentId = streamId,
         CourseName = "From Zero to Hero: REST APis in .NET",
-        EnrolledAtUtc = DateTime.UtcNow
+        CreatedAtUtc = DateTime.UtcNow
     })
 );
 
 var emailChanged = new EventData(
     Uuid.NewUuid(),
     "StudentEmailChanged",
-    JsonSerializer.SerializeToUtf8Bytes(new StudentEmailChanged
+    JsonSerializer.SerializeToUtf8Bytes(new StudentUpdated
     {
-        Id = streamId,
+        StudentId = streamId,
+        FullName = "Erik Shafer",
         Email = "erik.shafer.changed.his.email@eventstore.com",
-        ChangedAtUtc = DateTime.UtcNow
+        CreatedAtUtc = DateTime.UtcNow
     })
 );
 
