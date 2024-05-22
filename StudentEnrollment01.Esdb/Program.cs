@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
 using EventStore.Client;
-using StudentEnrollment01.Events;
+using StudentEnrollment01.Esdb.Events;
 
 // Register events to a singleton for ease-of-reference
 EventTypeMapper.Instance.ToName(typeof(StudentCreated));

@@ -1,4 +1,4 @@
-namespace StudentEnrollment01.Events;
+namespace StudentEnrollment01.Esdb.Events;
 
 public record StudentWithdrawn : Event
 {
