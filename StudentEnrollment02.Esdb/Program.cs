@@ -52,13 +52,17 @@ await client.AppendToStreamAsync(
     cancellationToken: default
 );
 
-var readStreamResult = client.ReadStreamAsync(
+var streamResult = client.ReadStreamAsync(
     Direction.Forwards,
     streamId,
     StreamPosition.Start,
     cancellationToken: default
 );
-var eventStream = await readStreamResult.ToListAsync();
+
+if (await streamResult.ReadState is ReadState.StreamNotFound)
+    return;
+
+var eventStream = await streamResult.ToListAsync();
 
 Console.WriteLine("Events from selected stream: ");
 foreach (var resolved in eventStream)

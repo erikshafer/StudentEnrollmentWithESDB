@@ -53,6 +53,6 @@ public class Student
     private void Apply(StudentUnEnrolled @event)
     {
         if (EnrolledCourses.Contains(@event.CourseName))
-            EnrolledCourses.Add(@event.CourseName);
+            EnrolledCourses.Remove(@event.CourseName);
     }
 }

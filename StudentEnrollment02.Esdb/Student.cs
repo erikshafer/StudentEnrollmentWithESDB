@@ -24,7 +24,7 @@ public class Student
             case StudentEnrolled enrolled:
                 Apply(enrolled);
                 break;
-            case StudentWithdrawn withdrawn:
+            case StudentWithdrew withdrawn:
                 Apply(withdrawn);
                 break;
         }
@@ -49,9 +49,9 @@ public class Student
             EnrolledCourses.Add(@event.CourseName);
     }
     
-    private void Apply(StudentWithdrawn @event)
+    private void Apply(StudentWithdrew @event)
     {
         if (EnrolledCourses.Contains(@event.CourseName))
-            EnrolledCourses.Add(@event.CourseName);
+            EnrolledCourses.Remove(@event.CourseName);
     }
 }

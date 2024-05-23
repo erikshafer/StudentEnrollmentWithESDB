@@ -1,11 +1,12 @@
 ﻿using System.Text;
 using System.Text.Json;
 using EventStore.Client;
+using StudentEnrollment03.Esdb;
 using StudentEnrollment03.Esdb.Events;
 
 EventTypeMapper.Instance.ToName(typeof(StudentCreated));
 EventTypeMapper.Instance.ToName(typeof(StudentEnrolled));
-EventTypeMapper.Instance.ToName(typeof(StudentWithdrawn));
+EventTypeMapper.Instance.ToName(typeof(StudentWithdrew));
 EventTypeMapper.Instance.ToName(typeof(StudentEmailChanged));
 
 var id = Guid.Parse("a662d446-4920-415e-8c2a-0dd4a6c58908");
@@ -13,7 +14,7 @@ var streamId = $"student-{id}";
 
 var created = new EventData(
     Uuid.NewUuid(),
-    "StudentCreated",
+    nameof(StudentCreated),
     JsonSerializer.SerializeToUtf8Bytes(new StudentCreated
     {
         Id = streamId,
@@ -26,11 +27,36 @@ var created = new EventData(
 
 var enrolled = new EventData(
     Uuid.NewUuid(),
-    "StudentEnrolled",
+    nameof(StudentEnrolled),
     JsonSerializer.SerializeToUtf8Bytes(new StudentEnrolled
     {
         Id = streamId,
         CourseName = "From Zero to Hero: REST APis in .NET",
+        InstructorName = "Nick Chapsas",
+        EnrolledAtUtc = DateTime.UtcNow
+    })
+);
+
+var enrolled2 = new EventData(
+    Uuid.NewUuid(),
+    nameof(StudentEnrolled),
+    JsonSerializer.SerializeToUtf8Bytes(new StudentEnrolled
+    {
+        Id = streamId,
+        CourseName = "From Zero to Hero: Integration Testing in ASP.NET Core",
+        InstructorName = "Nick Chapsas",
+        EnrolledAtUtc = DateTime.UtcNow
+    })
+);
+
+var enrolled3 = new EventData(
+    Uuid.NewUuid(),
+    nameof(StudentEnrolled),
+    JsonSerializer.SerializeToUtf8Bytes(new StudentEnrolled
+    {
+        Id = streamId,
+        CourseName = "Cloud Fundamentals: AWS Services for C# Developers",
+        InstructorName = "Nick Chapsas",
         EnrolledAtUtc = DateTime.UtcNow
     })
 );
@@ -46,6 +72,17 @@ var emailChanged = new EventData(
     })
 );
 
+var withdrawn = new EventData(
+    Uuid.NewUuid(),
+    nameof(StudentWithdrew),
+    JsonSerializer.SerializeToUtf8Bytes(new StudentWithdrew
+    {
+        Id = streamId,
+        CourseName = "Cloud Fundamentals: AWS Services for C# Developers",
+        WithdrawnAtUtc = DateTime.UtcNow
+    })
+);
+
 const string connectionString = "esdb://admin:changeit@localhost:2113?tls=false&tlsVerifyCert=false";
 var settings = EventStoreClientSettings.Create(connectionString);
 var client = new EventStoreClient(settings);
@@ -53,49 +90,54 @@ var client = new EventStoreClient(settings);
 await client.AppendToStreamAsync(
     streamId,
     StreamState.Any,
-    new[] { created, enrolled, emailChanged },
+    new[] { created, enrolled, enrolled2, enrolled3, emailChanged, withdrawn },
     cancellationToken: default
 );
 
-var readStreamResult = client.ReadStreamAsync(
+var streamResult = client.ReadStreamAsync(
     Direction.Forwards,
     streamId,
     StreamPosition.Start,
     cancellationToken: default
 );
-var eventStream = await readStreamResult.ToListAsync();
 
-Console.WriteLine("Events from selected stream: ");
-foreach (var resolved in eventStream)
+if (await streamResult.ReadState is ReadState.StreamNotFound)
+    return;
+
+var eventStream = await streamResult.ToListAsync();
+var student = new Student();
+
+foreach (var @event in eventStream)
 {
-    Console.WriteLine($"\tEventId: {resolved.Event.EventId}");
-    Console.WriteLine($"\tEventStreamId: {resolved.Event.EventStreamId}");
-    Console.WriteLine($"\tEventType: {resolved.Event.EventType}");
-    Console.WriteLine($"\tData: {Encoding.UTF8.GetString(resolved.Event.Data.ToArray())}");
-    Console.WriteLine("");
+    switch (DeserializeEvent(@event.Event))
+    {
+        case StudentCreated studentCreated:
+            student.Apply(studentCreated);
+            break;
+        case StudentEnrolled studentEnrolled:
+            student.Apply(studentEnrolled);
+            break;
+        case StudentEmailChanged studentEmailChanged:
+            student.Apply(studentEmailChanged);
+            break;
+        case StudentWithdrew studentWithdrew:
+            student.Apply(studentWithdrew);
+            break;
+    }
 }
 
-var enrolledCourses = eventStream
-    .Where(re => re.Event.EventType == "StudentEnrolled")
-    .Select(re => JsonSerializer.Deserialize<StudentEnrolled>(re.Event.Data.ToArray()))
-    .Select(se => se!.CourseName)
-    .ToList();
-Console.WriteLine("Courses enrolled in: ");
-enrolledCourses.ForEach(ec => Console.WriteLine($"\t- {ec}"));
-Console.WriteLine("");
+Console.WriteLine(
+    "StudentId: {0}\nFullName: {1}\nEmail: {2}\nDateOfBirth: {3}\nCreatedAtUtc: {4}", 
+    student!.Id, student.FullName, student.Email, student.DateOfBirth, student.CreatedAtUtc);
+Console.WriteLine("Enrolled courses:");
+foreach (var enrolledCourse in student.EnrolledCourses) 
+    Console.WriteLine($"\t- {enrolledCourse}");
+Console.WriteLine();
 
-// Write out using the mapper.
-Console.WriteLine("Deserialized events:");
-foreach (var resolved in eventStream)
+static Event DeserializeEvent(EventRecord eventRecord)
 {
-    var eventType = EventTypeMapper.Instance.ToType(resolved.Event.EventType);
-
-    if (eventType == null)
-        break;
-
-    var deserializedEvent = JsonSerializer.Deserialize(Encoding.UTF8.GetString(resolved.Event.Data.Span), eventType);
-    
-    Console.WriteLine($"\t{deserializedEvent}");
+    return (Event)JsonSerializer
+        .Deserialize(
+            Encoding.UTF8.GetString(eventRecord.Data.ToArray()),
+            Type.GetType($"{typeof(Event).Namespace}.{eventRecord.EventType}")!)!;
 }
-
-Console.WriteLine("");

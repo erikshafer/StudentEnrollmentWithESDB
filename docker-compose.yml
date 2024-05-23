@@ -1,7 +1,7 @@
 ﻿version: "3.4"
 
 services:
-  studentenrollment-esdb:
+  student-enrollment-esdb:
     image: eventstore/eventstore:24.2.0-jammy
     environment:
       - EVENTSTORE_CLUSTER_SIZE=1
@@ -12,3 +12,7 @@ services:
       - EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP=true
     ports:
       - "2113:2113"
+    networks:
+      - student-enrollment-esdb-net
+networks:
+  student-enrollment-esdb-net:
