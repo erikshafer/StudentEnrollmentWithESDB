@@ -35,11 +35,12 @@ public class Student
         Id = @event.StudentId;
         FullName = @event.FullName;
         Email = @event.Email;
+        DateOfBirth = @event.DateOfBirth;
+        CreatedAtUtc = @event.CreatedAtUtc;
     }
 
     private void Apply(StudentUpdated @event)
     {
-        Id = @event.StudentId; // Updating the identity, huh? Interesting... 👀
         FullName = @event.FullName;
         Email = @event.Email;
     }

@@ -35,6 +35,7 @@ public class Student
         Id = @event.Id;
         FullName = @event.FullName;
         Email = @event.Email;
+        DateOfBirth = @event.DateOfBirth;
         CreatedAtUtc = @event.CreatedAtUtc;
     }
     

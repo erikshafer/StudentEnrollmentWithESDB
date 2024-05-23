@@ -2,11 +2,11 @@
 using StudentEnrollment01.InMemory.Events;
 
 var id = Guid.Parse("a662d446-4920-415e-8c2a-0dd4a6c58908");
-var now = DateTime.Now;
+var now = DateTime.Now.ToUniversalTime();
 
 var studentCreated = new StudentCreated
 {
-    CreatedAtUtc = now.ToUniversalTime(),
+    CreatedAtUtc = now,
     StudentId = id,
     FullName = "Erik Shafer",
     Email = "erik.shafer@eventstore.com",
@@ -19,6 +19,9 @@ inMemoryDb.Append(studentCreated);
 var student = inMemoryDb.GetStudent(id);
 
 Console.WriteLine(
-    "StudentId: {0} | FullName: {1} | Email: {2} | DateOfBirth: {3} | CreatedAtUtc: {4}", 
+    "StudentId: {0}\nFullName: {1}\nEmail: {2}\nDateOfBirth: {3}\nCreatedAtUtc: {4}", 
     student!.Id, student.FullName, student.Email, student.DateOfBirth, student.CreatedAtUtc);
+Console.WriteLine("Enrolled courses:");
+foreach (var enrolledCourse in student.EnrolledCourses) 
+    Console.WriteLine($"\t- {enrolledCourse}");
 Console.WriteLine();
