@@ -113,12 +113,12 @@ if (await streamResult.ReadState is ReadState.StreamNotFound)
 // Okay, taking that StreamResult we're going to make it a List of ResolvedEvents.
 var eventStream = await streamResult.ToListAsync();
 // Get the last event's event number.
-var lastEventInStream = eventStream.Last().Event.EventNumber.ToUInt64();
+var lastEventNumFromStream = eventStream.Last().Event.EventNumber.ToUInt64();
 
 // Append another event. This time let's make sure no one has appended to (AKA updated) the stream.
 await client.AppendToStreamAsync(
     streamId,
-    new StreamRevision(lastEventInStream), // checking against expected revision number
+    new StreamRevision(lastEventNumFromStream), // checking against expected revision number
     new[] {  withdrawn },
     cancellationToken: default
 );
