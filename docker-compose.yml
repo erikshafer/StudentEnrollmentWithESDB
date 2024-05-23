@@ -1,6 +1,12 @@
 ﻿version: "3.4"
 
 services:
+  app01-inmemory:
+    build:
+      dockerfile: StudentEnrollment01.InMemory/Dockerfile
+      context: .
+    container_name: app01-inmemory
+  
   student-enrollment-esdb:
     image: eventstore/eventstore:24.2.0-jammy
     environment:
@@ -16,3 +22,4 @@ services:
       - student-enrollment-esdb-net
 networks:
   student-enrollment-esdb-net:
+    driver: bridge

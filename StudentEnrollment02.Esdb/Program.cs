@@ -82,6 +82,6 @@ var enrolledCourses = eventStream
     .Select(re => JsonSerializer.Deserialize<StudentEnrolled>(re.Event.Data.ToArray()))
     .Select(se => se!.CourseName)
     .ToList();
-Console.WriteLine("Courses enrolled in: ");
-enrolledCourses.ForEach(ec => Console.WriteLine($"\t- {ec}"));
+Console.WriteLine("Enrolled courses found in the stream: ");
+enrolledCourses.ForEach(ec => Console.WriteLine($"\t- {ec}")); // run the app multiple times ;)
 Console.WriteLine("");
