@@ -47,35 +47,29 @@ Ideally on my birthday, May 22nd!
 
 ## 🏃 Running
 
-### 0️⃣ Project: StudentEnrollment00
+### 0️⃣1️⃣ StudentEnrollment01.InMemory
+
+#### AKA the in-memory event store version
 
 Like the other programs that are .NET console application, the database is a glorified key-value store that's in-memory.
 
 To run it, enter the project directory through your shell's associated Change Directory (`cd`) command from the solution root, such as:
 
 ```bash
-cd .\StudentEnrollment01
-```
-
-and then build the project
-
-```bash
+cd .\StudentEnrollment01.InMemory
 dotnet build
-```
-
-and run it
-
-```bash
 dotnet run
 ```
 
 Alternatively, you can do all this from the solution's root by targeting the project with `--project` and `run` it immediately, such as:
 
 ```bash
-dotnet run --project .\StudentEnrollment00\StudentEnrollment00.csproj
+dotnet run --project .\StudentEnrollment01.InMemory\StudentEnrollment01.InMemory.csproj
 ```
 
-### 1️⃣ Project: StudentEnrollment01
+### 0️⃣2️⃣ StudentEnrollment02.Esdb
+
+#### AKA with EventStoreDB
 
 While still a .NET console app, we're now going to use the Event Store database. So be sure to launch EventStoreDB through Docker. With a terminal / command prompt execute:
 
@@ -83,12 +77,14 @@ While still a .NET console app, we're now going to use the Event Store database.
 docker-compose up
 ```
 
+**NOTE**: You will need to have ESDB running via Docker for the third (03) project as well.
+
 Like before, you can change directory into the project or run it from the root.
 
 Run the console application of your choice, change direction to that particular project directory and then execute:
 
 ```bash
-cd .\StudentEnrollment01
+cd .\StudentEnrollment02.Esdb
 dotnet build
 dotnet run
 ```
@@ -96,10 +92,12 @@ dotnet run
 Or alternatively:
 
 ```bash
-dotnet run --project .\StudentEnrollment01\StudentEnrollment01.csproj
+dotnet run --project .\StudentEnrollment02.Esdb\StudentEnrollment02.Esdb.csproj
 ```
 
-### 2️⃣ TBD
+### 0️⃣3️⃣  StudentEnrollment03.Esdb
+
+#### AKA with EventStoreDB, plus a few changes
 
 Instructions will go here, but will basically be the same as above!
 
