@@ -90,7 +90,14 @@ var client = new EventStoreClient(settings);
 await client.AppendToStreamAsync(
     streamId,
     StreamState.Any,
-    new[] { created, enrolled, enrolled2, enrolled3, emailChanged, withdrawn },
+    new[] { created, enrolled, enrolled2, enrolled3, emailChanged },
+    cancellationToken: default
+);
+
+await client.AppendToStreamAsync(
+    streamId,
+    new StreamRevision(), // StreamState.StreamExists, // TODO
+    new[] {  withdrawn },
     cancellationToken: default
 );
 
