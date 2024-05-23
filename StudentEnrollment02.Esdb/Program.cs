@@ -60,11 +60,14 @@ var streamResult = client.ReadStreamAsync(
 );
 
 if (await streamResult.ReadState is ReadState.StreamNotFound)
+{
+    Console.WriteLine($"The fetched stream (id: {streamId}) that was read was in StreamNotFound state");
     return;
+}
 
 var eventStream = await streamResult.ToListAsync();
 
-Console.WriteLine("Events from selected stream: ");
+Console.WriteLine($"Events (total: {eventStream.Count}) from selected stream: ");
 foreach (var resolved in eventStream)
 {
     Console.WriteLine($"\tEventId: {resolved.Event.EventId}");

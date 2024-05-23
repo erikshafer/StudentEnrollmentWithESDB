@@ -102,11 +102,15 @@ var streamResult = client.ReadStreamAsync(
 );
 
 if (await streamResult.ReadState is ReadState.StreamNotFound)
+{
+    Console.WriteLine($"The fetched stream (id: {streamId}) that was read was in StreamNotFound state");
     return;
+}
 
 var eventStream = await streamResult.ToListAsync();
 var student = new Student();
 
+Console.WriteLine($"Events (total: {eventStream.Count}) from selected stream: ");
 foreach (var @event in eventStream)
 {
     switch (DeserializeEvent(@event.Event))
