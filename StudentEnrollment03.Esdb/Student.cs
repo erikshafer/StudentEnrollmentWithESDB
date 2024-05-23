@@ -1,6 +1,6 @@
-using StudentEnrollment02.Esdb.Events;
+using StudentEnrollment03.Esdb.Events;
 
-namespace StudentEnrollment02.Esdb;
+namespace StudentEnrollment03.Esdb;
 
 public class Student
 {
@@ -18,7 +18,7 @@ public class Student
             case StudentCreated created:
                 Apply(created);
                 break;
-            case StudentUpdated emailChanged:
+            case StudentEmailChanged emailChanged:
                 Apply(emailChanged);
                 break;
             case StudentEnrolled enrolled:
@@ -32,13 +32,13 @@ public class Student
     
     private void Apply(StudentCreated @event)
     {
-        Id = @event.StudentId;
+        Id = @event.Id;
         FullName = @event.FullName;
         Email = @event.Email;
         CreatedAtUtc = @event.CreatedAtUtc;
     }
     
-    private void Apply(StudentUpdated @event)
+    private void Apply(StudentEmailChanged @event)
     {
         Email = @event.Email;
     }

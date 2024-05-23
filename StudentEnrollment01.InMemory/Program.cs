@@ -19,6 +19,6 @@ inMemoryDb.Append(studentCreated);
 var student = inMemoryDb.GetStudent(id);
 
 Console.WriteLine(
-    "StudentId: {0} | FullName: {1} | Email: {2} | DOB: {3} | CreatedAtUtc: {4}", 
+    "StudentId: {0} | FullName: {1} | Email: {2} | DateOfBirth: {3} | CreatedAtUtc: {4}", 
     student!.Id, student.FullName, student.Email, student.DateOfBirth, student.CreatedAtUtc);
 Console.WriteLine();

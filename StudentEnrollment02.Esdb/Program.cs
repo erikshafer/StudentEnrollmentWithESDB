@@ -3,21 +3,14 @@ using System.Text.Json;
 using EventStore.Client;
 using StudentEnrollment02.Esdb.Events;
 
-// Register events to a singleton for ease-of-reference
-EventTypeMapper.Instance.ToName(typeof(StudentCreated));
-EventTypeMapper.Instance.ToName(typeof(StudentEnrolled));
-EventTypeMapper.Instance.ToName(typeof(StudentWithdrawn));
-EventTypeMapper.Instance.ToName(typeof(StudentEmailChanged));
-
-var id = Guid.Parse("a662d446-4920-415e-8c2a-0dd4a6c58908");
-var streamId = $"student-{id}";
+var streamId = Guid.Parse("a662d446-4920-415e-8c2a-0dd4a6c58908").ToString();
 
 var created = new EventData(
     Uuid.NewUuid(),
     "StudentCreated",
     JsonSerializer.SerializeToUtf8Bytes(new StudentCreated
     {
-        Id = streamId,
+        StudentId = streamId,
         FullName = "Erik Shafer",
         Email = "erik.shafer@eventstore.com",
         DateOfBirth = new DateTime(1987, 1, 1),
@@ -30,29 +23,28 @@ var enrolled = new EventData(
     "StudentEnrolled",
     JsonSerializer.SerializeToUtf8Bytes(new StudentEnrolled
     {
-        Id = streamId,
+        StudentId = streamId,
         CourseName = "From Zero to Hero: REST APis in .NET",
-        EnrolledAtUtc = DateTime.UtcNow
+        CreatedAtUtc = DateTime.UtcNow
     })
 );
 
 var emailChanged = new EventData(
     Uuid.NewUuid(),
     "StudentEmailChanged",
-    JsonSerializer.SerializeToUtf8Bytes(new StudentEmailChanged
+    JsonSerializer.SerializeToUtf8Bytes(new StudentUpdated
     {
-        Id = streamId,
+        StudentId = streamId,
+        FullName = "Erik Shafer",
         Email = "erik.shafer.changed.his.email@eventstore.com",
-        ChangedAtUtc = DateTime.UtcNow
+        CreatedAtUtc = DateTime.UtcNow
     })
 );
 
-// Our EventStoreDB (ESDB)
 const string connectionString = "esdb://admin:changeit@localhost:2113?tls=false&tlsVerifyCert=false";
 var settings = EventStoreClientSettings.Create(connectionString);
 var client = new EventStoreClient(settings);
 
-// Append to ESDB
 await client.AppendToStreamAsync(
     streamId,
     StreamState.Any,
@@ -60,16 +52,18 @@ await client.AppendToStreamAsync(
     cancellationToken: default
 );
 
-// Read from ESDB
-var readStreamResult = client.ReadStreamAsync(
+var streamResult = client.ReadStreamAsync(
     Direction.Forwards,
     streamId,
     StreamPosition.Start,
     cancellationToken: default
 );
-var eventStream = await readStreamResult.ToListAsync();
 
-// Write out the events from the stream
+if (await streamResult.ReadState is ReadState.StreamNotFound)
+    return;
+
+var eventStream = await streamResult.ToListAsync();
+
 Console.WriteLine("Events from selected stream: ");
 foreach (var resolved in eventStream)
 {
@@ -80,7 +74,6 @@ foreach (var resolved in eventStream)
     Console.WriteLine("");
 }
 
-// Write out all the courses the student enrolled in
 var enrolledCourses = eventStream
     .Where(re => re.Event.EventType == "StudentEnrolled")
     .Select(re => JsonSerializer.Deserialize<StudentEnrolled>(re.Event.Data.ToArray()))
@@ -88,20 +81,4 @@ var enrolledCourses = eventStream
     .ToList();
 Console.WriteLine("Courses enrolled in: ");
 enrolledCourses.ForEach(ec => Console.WriteLine($"\t- {ec}"));
-Console.WriteLine("");
-
-// Write out using the mapper
-Console.WriteLine("Deserialized events:");
-foreach (var resolved in eventStream)
-{
-    var eventType = EventTypeMapper.Instance.ToType(resolved.Event.EventType);
-
-    if (eventType == null)
-        break;
-
-    var deserializedEvent = JsonSerializer.Deserialize(Encoding.UTF8.GetString(resolved.Event.Data.Span), eventType);
-    
-    Console.WriteLine($"\t{deserializedEvent}");
-}
-
 Console.WriteLine("");

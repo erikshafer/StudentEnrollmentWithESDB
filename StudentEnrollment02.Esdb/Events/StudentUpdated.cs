@@ -1,7 +1,7 @@
 namespace StudentEnrollment02.Esdb.Events;
 
-public record StudentEmailChanged : Event
+public class StudentUpdated : Event
 {
+    public required string FullName { get; init; }
     public required string Email { get; init; }
-    public DateTime ChangedAtUtc { get; init; }
 }
