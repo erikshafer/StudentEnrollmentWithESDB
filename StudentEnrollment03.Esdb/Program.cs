@@ -87,13 +87,15 @@ const string connectionString = "esdb://admin:changeit@localhost:2113?tls=false&
 var settings = EventStoreClientSettings.Create(connectionString);
 var client = new EventStoreClient(settings);
 
+// Append the initial batch of events.
 await client.AppendToStreamAsync(
     streamId,
     StreamState.Any,
-    new[] { created, enrolled, enrolled2, enrolled3, emailChanged, withdrawn },
+    new[] { created, enrolled, enrolled2, enrolled3, emailChanged },
     cancellationToken: default
 );
 
+// Read from the stream we just appended to.
 var streamResult = client.ReadStreamAsync(
     Direction.Forwards,
     streamId,
@@ -101,12 +103,29 @@ var streamResult = client.ReadStreamAsync(
     cancellationToken: default
 );
 
+// Optional safety check, but here we're ensuring the stream was found.
 if (await streamResult.ReadState is ReadState.StreamNotFound)
+{
+    Console.WriteLine($"The fetched stream (id: {streamId}) that was read was in StreamNotFound state");
     return;
+}
 
+// Okay, taking that StreamResult we're going to make it a List of ResolvedEvents.
 var eventStream = await streamResult.ToListAsync();
+// Get the last event's event number.
+var lastEventNumFromStream = eventStream.Last().Event.EventNumber.ToUInt64();
+
+// Append another event. This time let's make sure no one has appended to (AKA updated) the stream.
+await client.AppendToStreamAsync(
+    streamId,
+    new StreamRevision(lastEventNumFromStream), // checking against expected revision number
+    new[] {  withdrawn },
+    cancellationToken: default
+);
+
 var student = new Student();
 
+Console.WriteLine($"Events (total: {eventStream.Count}) from selected stream: ");
 foreach (var @event in eventStream)
 {
     switch (DeserializeEvent(@event.Event))

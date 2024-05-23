@@ -22,6 +22,12 @@ Console.WriteLine(
     "StudentId: {0}\nFullName: {1}\nEmail: {2}\nDateOfBirth: {3}\nCreatedAtUtc: {4}", 
     student!.Id, student.FullName, student.Email, student.DateOfBirth, student.CreatedAtUtc);
 Console.WriteLine("Enrolled courses:");
+if (student.EnrolledCourses.Count is 0)
+{
+    Console.WriteLine("No enrolled courses");
+    return;
+}
+
 foreach (var enrolledCourse in student.EnrolledCourses) 
     Console.WriteLine($"\t- {enrolledCourse}");
 Console.WriteLine();
