@@ -2,11 +2,13 @@
 
 An application showing the absolute basics of event sourcing with [EventStoreDB (ESDB)](https://www.eventstore.com/).
 
+The accompanying [YouTube video can be found here](https://www.youtube.com/watch?v=SB55-lgK_8I).
 
 ## 💡 Inspiration
 
-Inspired by Nick Chapsas' video about [getting started with Event Sourcing in .NET](https://www.youtube.com/watch?v=n_o-xuuVtmw). This take however uses EventStoreDB as its, well, store of events!
+This effort was inspired by Nick Chapsas' excellent video about [getting started with Event Sourcing in .NET](https://www.youtube.com/watch?v=n_o-xuuVtmw). This version however uses EventStoreDB as its database.
 
+Be sure to check out [Nick's YouTube channel](https://www.youtube.com/@nickchapsas) if you are somehow unfamiliar with his content, as well as his education platform [Dometrain](https://dometrain.com/) where you can level up your software development skills!
 
 ### 📄 Mini-Log / 🤔 Thoughts / 🧠 Brain Dump
 
