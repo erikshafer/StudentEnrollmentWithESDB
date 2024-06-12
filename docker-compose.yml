@@ -1,6 +1,4 @@
-﻿version: "3.4"
-
-services:
+﻿services:
   app01-inmemory:
     build:
       dockerfile: StudentEnrollment01.InMemory/Dockerfile

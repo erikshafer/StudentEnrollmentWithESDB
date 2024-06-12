@@ -18,11 +18,11 @@ public class Student
             case StudentCreated created:
                 Apply(created);
                 break;
-            case StudentEmailChanged emailChanged:
-                Apply(emailChanged);
-                break;
             case StudentEnrolled enrolled:
                 Apply(enrolled);
+                break;
+            case StudentEmailChanged emailChanged:
+                Apply(emailChanged);
                 break;
             case StudentWithdrew withdrawn:
                 Apply(withdrawn);
