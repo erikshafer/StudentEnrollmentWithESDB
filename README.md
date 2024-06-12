@@ -35,13 +35,6 @@ This is not an Architectural Decision Records (ADRs) log. [This is just a tribut
 </details>
 
 
-## 📺 Companion Video
-
-A video will be posted on my [YouTube channel](https://www.youtube.com/@event-sourcing) soon. 
-
-Ideally on my birthday, May 22nd!
-
-
 ## 🐋 Requirements
 
 1. [Docker](https://www.docker.com/products/docker-desktop/)
