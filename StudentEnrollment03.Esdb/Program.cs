@@ -91,7 +91,7 @@ var client = new EventStoreClient(settings);
 await client.AppendToStreamAsync(
     streamId,
     StreamState.Any,
-    new[] { created, enrolled, enrolled2, enrolled3, emailChanged },
+    new[] { created, enrolled, enrolled2, enrolled3, emailChanged, withdrawn },
     cancellationToken: default
 );
 
@@ -112,23 +112,14 @@ if (await streamResult.ReadState is ReadState.StreamNotFound)
 
 // Okay, taking that StreamResult we're going to make it a List of ResolvedEvents.
 var eventStream = await streamResult.ToListAsync();
-// Get the last event's event number.
-var lastEventNumFromStream = eventStream.Last().Event.EventNumber.ToUInt64();
-
-// Append another event. This time let's make sure no one has appended to (AKA updated) the stream.
-await client.AppendToStreamAsync(
-    streamId,
-    new StreamRevision(lastEventNumFromStream), // checking against expected revision number
-    new[] {  withdrawn },
-    cancellationToken: default
-);
-
-var student = new Student();
-
 Console.WriteLine($"Events (total: {eventStream.Count}) from selected stream: ");
+
+// Instantiate our model and then apply state changes from the deserialized events.
+var student = new Student();
 foreach (var @event in eventStream)
 {
-    switch (DeserializeEvent(@event.Event))
+    var deserializeEvent = DeserializeEvent(@event.Event);
+    switch (deserializeEvent)
     {
         case StudentCreated studentCreated:
             student.Apply(studentCreated);
